@@ -393,8 +393,8 @@ Redundancies will be taken care of.
 assets {
   css :NAME, [ PATH1, PATH2, ... ]
   css :NAME, 'URI', [ PATH1, PATH2, ... ]
-  js:NAME, [ PATH1, PATH2, ... ]
-  js:NAME, 'URI', [ PATH1, PATH2, ... ]
+  js :NAME, [ PATH1, PATH2, ... ]
+  js :NAME, 'URI', [ PATH1, PATH2, ... ]
 }
 ```
 
@@ -556,6 +556,38 @@ class App < Sinatra::Base
       '/js/vendor/jquery.js'
     ]
     cache_dynamic_assets true
+  }
+end
+```
+
+### assets.asset_hosts
+Adds asset hosts to be used in production.
+
+Useful for hosting your assets on CDNs.
+
+``` ruby
+# Usage:
+assets {
+  asset_hosts ['URL1', 'URL2']
+}
+```
+
+#### Example
+In this example, all assets are served from multiple CDN subdomains:
+
+``` ruby
+class App < Sinatra::Base
+  assets {
+    serve '/css',     :from => 'app/css'
+    serve '/js',      :from => 'app/js'
+
+    asset_hosts [
+      '//cdn-0.example.org',
+      '//cdn-1.example.org'
+    ]
+
+    css :a, ["/css/style.css"]
+    js :b, ["/js/hello.js"]
   }
 end
 ```
